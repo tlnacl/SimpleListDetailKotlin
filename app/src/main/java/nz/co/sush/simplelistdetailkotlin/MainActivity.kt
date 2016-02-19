@@ -27,12 +27,12 @@ class MainActivity : AppCompatActivity() {
         ApiAdapter.get().getEventList()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-        .subscribe()
+        .subscribe(EventSubscriber())
     }
 
     private inner class EventSubscriber: Subscriber<List<Event>>() {
         override fun onNext(p0: List<Event>?) {
-//            adapter.items = p0.flatMap { e }
+            adapter.items = p0!!.map { it.id.toString() }
         }
 
         override fun onCompleted() {
