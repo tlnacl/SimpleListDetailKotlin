@@ -11,6 +11,8 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+
+        buildConfigField 'String', 'API_ENDPOINT', '"http://api.openweathermap.org/data/2.5/"'
     }
     buildTypes {
         release {
@@ -30,13 +32,21 @@ dependencies {
     compile "com.android.support:recyclerview-v7:$support_version"
     compile 'com.android.support:appcompat-v7:23.1.1'
 
+    // Kodein
+    compile "com.github.salomonbrys.kodein:kodein:$kodein_version"
+    compile "com.github.salomonbrys.kodein:kodein-android:$kodein_version"
+
     // Retrofit
     compile "com.squareup.retrofit2:retrofit:$retrofit_version"
     compile "com.squareup.retrofit2:converter-gson:$retrofit_version"
     compile "com.squareup.retrofit2:converter-scalars:$retrofit_version"
     compile "com.squareup.retrofit2:adapter-rxjava:$retrofit_version"
+    compile "com.squareup.okhttp3:okhttp:3.1.2"
 
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    //others
+    compile "com.squareup.picasso:picasso:2.5.2"
 
     //rx
     compile 'io.reactivex:rxandroid:1.1.0'

@@ -4,17 +4,25 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import nz.co.sush.simplelistdetailkotlin.model.Event
+import com.antonioleiva.weatherapp.data.server.convertToDomain
+import nz.co.sush.simplelistdetailkotlin.model.ForecastResult
 import nz.co.sush.simplelistdetailkotlin.network.ApiAdapter
+import nz.co.sush.simplelistdetailkotlin.ui.adapters.ForecastListAdapter
+import nz.co.sush.simplelistdetailkotlin.ui.model.ForecastList
 import nz.co.sush.simplelistdetailkotlin.utils.bindView
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
 class MainActivity : AppCompatActivity() {
+//    private val kodein = lazyKodeinFromApp()
+//    private val apiAdapter: ApiAdapter by kodein.lazyProvider<ApiAdapter>()
+
     val recycleView: RecyclerView by bindView(R.id.recycler_view)
 
-    private var adapter: EventListAdapter = EventListAdapter()
+    private var adapter: ForecastListAdapter = ForecastListAdapter(){
+        //on item click
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,25 +30,27 @@ class MainActivity : AppCompatActivity() {
         recycleView.layoutManager = LinearLayoutManager(this)
         recycleView.adapter = adapter
 
-        adapter.items = items
-
-        ApiAdapter.get().getEventList()
+        //TODO by using DI
+        val cityId = 2193733
+        ApiAdapter.get().getForcastByCity(cityId)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
+                .map { fr: ForecastResult -> convertToDomain(cityId,fr) }
+
         .subscribe(EventSubscriber())
     }
 
-    private inner class EventSubscriber: Subscriber<List<Event>>() {
-        override fun onNext(p0: List<Event>?) {
-            adapter.items = p0!!.map { it.id.toString() }
+    private inner class EventSubscriber: Subscriber<ForecastList>() {
+        override fun onError(p0: Throwable?) {
+
         }
 
         override fun onCompleted() {
 
         }
 
-        override fun onError(p0: Throwable?) {
-
+        override fun onNext(p0: ForecastList?) {
+            adapter.weekForecast = p0!!
         }
 
     }
