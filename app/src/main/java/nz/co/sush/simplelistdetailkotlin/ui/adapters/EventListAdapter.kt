@@ -1,4 +1,4 @@
-package nz.co.sush.simplelistdetailkotlin
+package nz.co.sush.simplelistdetailkotlin.ui.adapters
 
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup

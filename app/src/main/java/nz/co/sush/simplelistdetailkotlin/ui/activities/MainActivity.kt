@@ -1,10 +1,11 @@
-package nz.co.sush.simplelistdetailkotlin
+package nz.co.sush.simplelistdetailkotlin.ui.activities
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import com.antonioleiva.weatherapp.data.server.convertToDomain
+import nz.co.sush.simplelistdetailkotlin.R
 import nz.co.sush.simplelistdetailkotlin.model.ForecastResult
 import nz.co.sush.simplelistdetailkotlin.network.ApiAdapter
 import nz.co.sush.simplelistdetailkotlin.ui.adapters.ForecastListAdapter
@@ -20,7 +21,7 @@ class MainActivity : AppCompatActivity() {
 
     val recycleView: RecyclerView by bindView(R.id.recycler_view)
 
-    private var adapter: ForecastListAdapter = ForecastListAdapter(){
+    private var adapter: ForecastListAdapter = ForecastListAdapter() {
         //on item click
     }
 
@@ -35,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         ApiAdapter.get().getForcastByCity(cityId)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map { fr: ForecastResult -> convertToDomain(cityId,fr) }
+                .map { fr: ForecastResult -> convertToDomain(cityId, fr) }
 
         .subscribe(EventSubscriber())
     }
