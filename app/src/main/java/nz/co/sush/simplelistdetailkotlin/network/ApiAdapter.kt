@@ -19,6 +19,8 @@ interface ApiAdapter {
     @GET("forecast/daily?mode=json&units=metric&cnt=7&APPID=4a296830ce66f74149cb8840cd37100f")
     fun getForcastByCity(@Query("id") cityId: Int): Observable<ForecastResult>
 
+
+
     companion object {
         fun get(): ApiAdapter {
             val httpClient = OkHttpClient.Builder().addNetworkInterceptor { chain ->
