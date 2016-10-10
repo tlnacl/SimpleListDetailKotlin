@@ -3,35 +3,31 @@ package nz.co.sush.simplelistdetailkotlin.ui.activities
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import com.antonioleiva.weatherapp.data.server.convertToDomain
+import kotlinx.android.synthetic.main.activity_main.*
 import nz.co.sush.simplelistdetailkotlin.R
 import nz.co.sush.simplelistdetailkotlin.model.ForecastResult
 import nz.co.sush.simplelistdetailkotlin.network.ApiAdapter
 import nz.co.sush.simplelistdetailkotlin.ui.adapters.ForecastListAdapter
 import nz.co.sush.simplelistdetailkotlin.ui.model.ForecastList
-import nz.co.sush.simplelistdetailkotlin.utils.bindView
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
 class MainActivity : AppCompatActivity() {
-//    private val kodein = lazyKodeinFromApp()
-//    private val apiAdapter: ApiAdapter by kodein.lazyProvider<ApiAdapter>()
-
-    val recycleView: RecyclerView by bindView(R.id.recycler_view)
-
     private var adapter: ForecastListAdapter = ForecastListAdapter() {
         //on item click
+//        val intent = Intent()
+//        intent.putExtra(DetailActivity.CITY_NAME,cityName)
+//        startActivity(intent)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        recycleView.layoutManager = LinearLayoutManager(this)
-        recycleView.adapter = adapter
+        recycler_view.layoutManager = LinearLayoutManager(this)
+        recycler_view.adapter = adapter
 
-        //TODO by using DI
         val cityId = 2193733
         ApiAdapter.get().getForcastByCity(cityId)
                 .subscribeOn(Schedulers.newThread())

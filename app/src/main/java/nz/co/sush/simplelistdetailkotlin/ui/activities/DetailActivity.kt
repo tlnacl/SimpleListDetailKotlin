@@ -1,7 +1,6 @@
 package nz.co.sush.simplelistdetailkotlin.ui.activities
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
@@ -25,11 +24,6 @@ class DetailActivity: AppCompatActivity() {
     val weatherDescription:TextView by bindView(R.id.weatherDescription)
     val maxTemperature:TextView by bindView(R.id.maxTemperature)
     val minTemperature:TextView by bindView(R.id.minTemperature)
-
-    fun newIntent(context: Context,forecast: Forecast){
-        val intent = Intent()
-        intent.putExtra(FORECAST,forecast)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);
