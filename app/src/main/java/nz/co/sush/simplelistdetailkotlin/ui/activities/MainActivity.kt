@@ -4,15 +4,14 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import com.antonioleiva.weatherapp.data.server.convertToDomain
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import nz.co.sush.simplelistdetailkotlin.R
 import nz.co.sush.simplelistdetailkotlin.model.ForecastResult
 import nz.co.sush.simplelistdetailkotlin.network.ApiAdapter
 import nz.co.sush.simplelistdetailkotlin.ui.adapters.ForecastListAdapter
 import nz.co.sush.simplelistdetailkotlin.ui.model.ForecastList
-import rx.Subscriber
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
 
 class MainActivity : AppCompatActivity() {
     private var adapter: ForecastListAdapter = ForecastListAdapter() {
@@ -33,23 +32,7 @@ class MainActivity : AppCompatActivity() {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map { fr: ForecastResult -> convertToDomain(cityId, fr) }
-
-        .subscribe(EventSubscriber())
-    }
-
-    private inner class EventSubscriber: Subscriber<ForecastList>() {
-        override fun onError(p0: Throwable?) {
-
-        }
-
-        override fun onCompleted() {
-
-        }
-
-        override fun onNext(p0: ForecastList?) {
-            adapter.weekForecast = p0!!
-        }
-
+                .subscribe{t: ForecastList? -> adapter.weekForecast = t!!}
     }
 
     private val items = listOf(
