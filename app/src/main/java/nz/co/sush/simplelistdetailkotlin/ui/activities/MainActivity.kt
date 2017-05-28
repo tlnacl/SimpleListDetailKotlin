@@ -12,18 +12,14 @@ import nz.co.sush.simplelistdetailkotlin.R
 import nz.co.sush.simplelistdetailkotlin.model.ForecastResult
 import nz.co.sush.simplelistdetailkotlin.network.ApiAdapter
 import nz.co.sush.simplelistdetailkotlin.ui.adapters.ForecastListAdapter
+import nz.co.sush.simplelistdetailkotlin.ui.model.Forecast
 import nz.co.sush.simplelistdetailkotlin.ui.model.ForecastList
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ForecastListAdapter.Callback {
     @Inject lateinit var api: ApiAdapter
+    private val adapter = ForecastListAdapter()
 
-    private var adapter: ForecastListAdapter = ForecastListAdapter() {
-        //on item click
-//        val intent = Intent()
-//        intent.putExtra(DetailActivity.CITY_NAME,cityName)
-//        startActivity(intent)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,13 +27,18 @@ class MainActivity : AppCompatActivity() {
         (application as App).appComponent.inject(this)
         recycler_view.layoutManager = LinearLayoutManager(this)
         recycler_view.adapter = adapter
+        adapter.setCallback(this)
 
         val cityId = 2193733
         api.getForcastByCity(cityId)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map { fr: ForecastResult -> convertToDomain(cityId, fr) }
-                .subscribe{t: ForecastList? -> adapter.weekForecast = t!!}
+                .subscribe{t: ForecastList? -> adapter.setForecast(t!!)}
+    }
+
+    override fun onItemClick(forecast: Forecast) {
+        startActivity(DetailActivity.getStartIntent(this,forecast))
     }
 
     private val items = listOf(

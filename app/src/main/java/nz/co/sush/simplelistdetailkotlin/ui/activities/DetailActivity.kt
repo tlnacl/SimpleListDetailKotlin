@@ -1,6 +1,7 @@
 package nz.co.sush.simplelistdetailkotlin.ui.activities
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
@@ -18,6 +19,12 @@ class DetailActivity: AppCompatActivity() {
     companion object {
         val FORECAST = "DetailActivity:forecast"
         val CITY_NAME = "DetailActivity:cityName"
+        fun getStartIntent(context: Context, cityName:String, forecast: Forecast): Intent? {
+            val intent = Intent(context, DetailActivity::class.java)
+            intent.putExtra(FORECAST, forecast)
+            intent.putExtra(CITY_NAME,cityName)
+            return intent
+        }
     }
 
     val icon:ImageView by bindView(R.id.icon)
