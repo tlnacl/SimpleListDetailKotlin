@@ -1,24 +1,24 @@
 package nz.co.sush.simplelistdetailkotlin.ui.activities
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import nz.co.sush.simplelistdetailkotlin.R
-import nz.co.sush.simplelistdetailkotlin.model.ForecastResult
 import nz.co.sush.simplelistdetailkotlin.network.ApiAdapter
 import nz.co.sush.simplelistdetailkotlin.network.convertToDomain
 import nz.co.sush.simplelistdetailkotlin.ui.adapters.ForecastListAdapter
-import nz.co.sush.simplelistdetailkotlin.ui.model.ForecastList
 
 class MainActivity : AppCompatActivity() {
-    private var adapter: ForecastListAdapter = ForecastListAdapter() {
+    private var adapter: ForecastListAdapter = ForecastListAdapter {
         //on item click
-//        val intent = Intent()
-//        intent.putExtra(DetailActivity.CITY_NAME,cityName)
-//        startActivity(intent)
+        val intent = Intent()
+        intent.putExtra(DetailActivity.CITY_NAME, "City Name")
+        startActivity(intent)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,11 +28,10 @@ class MainActivity : AppCompatActivity() {
         recycler_view.adapter = adapter
 
         val cityId = 2193733
-        ApiAdapter.get().getForcastByCity(cityId)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .map { fr: ForecastResult -> convertToDomain(cityId, fr) }
-                .subscribe{t: ForecastList? -> adapter.weekForecast = t!!}
+
+        GlobalScope.launch(Dispatchers.Main) {
+            adapter.weekForecast = convertToDomain(cityId, ApiAdapter.get().getForcastByCity(cityId))
+        }
     }
 
     private val items = listOf(

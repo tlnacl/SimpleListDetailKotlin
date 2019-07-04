@@ -40,19 +40,16 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-scalars:$retrofitVersion"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
     implementation "com.squareup.okhttp3:okhttp:4.0.0"
+
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.1"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.1"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "org.jetbrains.anko:anko-common:0.10.8"
 
     //others
     implementation "com.squareup.picasso:picasso:2.71828"
-
-    //rx
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.8'
-    implementation 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
 
     //Debug
     implementation 'com.facebook.stetho:stetho:1.5.0'
