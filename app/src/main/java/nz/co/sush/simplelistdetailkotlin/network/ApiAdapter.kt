@@ -23,17 +23,11 @@ interface ApiAdapter {
 
     companion object {
         fun get(): ApiAdapter {
-            val httpClient = OkHttpClient.Builder().addNetworkInterceptor { chain ->
-                val request = chain.request().newBuilder()
-                        .build()
-                chain.proceed(request);
-            }.build()
-
             val restAdapter = Retrofit.Builder()
                     .baseUrl(BuildConfig.API_ENDPOINT)
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                    .client(httpClient)
+                    .client(OkHttpClient.Builder().build())
                     .build()
             return restAdapter.create(ApiAdapter::class.java)
         }

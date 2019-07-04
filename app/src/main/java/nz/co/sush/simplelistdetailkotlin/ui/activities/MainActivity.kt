@@ -1,15 +1,15 @@
 package nz.co.sush.simplelistdetailkotlin.ui.activities
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import com.antonioleiva.weatherapp.data.server.convertToDomain
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import nz.co.sush.simplelistdetailkotlin.R
 import nz.co.sush.simplelistdetailkotlin.model.ForecastResult
 import nz.co.sush.simplelistdetailkotlin.network.ApiAdapter
+import nz.co.sush.simplelistdetailkotlin.network.convertToDomain
 import nz.co.sush.simplelistdetailkotlin.ui.adapters.ForecastListAdapter
 import nz.co.sush.simplelistdetailkotlin.ui.model.ForecastList
 

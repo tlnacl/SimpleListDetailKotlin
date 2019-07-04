@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.antonioleiva.weatherapp.data.server
+package nz.co.sush.simplelistdetailkotlin.network
 
 import nz.co.sush.simplelistdetailkotlin.model.Forecast
 import nz.co.sush.simplelistdetailkotlin.model.ForecastResult

@@ -1,9 +1,9 @@
 package nz.co.sush.simplelistdetailkotlin.ui.adapters
 
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_forecast.view.*
 import nz.co.sush.simplelistdetailkotlin.R
@@ -35,7 +35,7 @@ class ForecastListAdapter(val itemClick: (Forecast) -> Unit) :
     class ViewHolder(view: View, val itemClick: (Forecast) -> Unit) : RecyclerView.ViewHolder(view) {
         fun bindForecast(forecast: Forecast) {
             with(forecast) {
-                Picasso.with(itemView.context).load(iconUrl).into(itemView.icon)
+                Picasso.get().load(iconUrl).into(itemView.icon)
                 itemView.date.text = date.toDateString()
                 itemView.description.text = description
                 itemView.maxTemperature.text = "${high.toString()}º"
