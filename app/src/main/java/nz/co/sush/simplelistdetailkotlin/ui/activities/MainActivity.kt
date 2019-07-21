@@ -5,15 +5,20 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import nz.co.sush.simplelistdetailkotlin.R
 import nz.co.sush.simplelistdetailkotlin.network.ApiAdapter
 import nz.co.sush.simplelistdetailkotlin.network.convertToDomain
 import nz.co.sush.simplelistdetailkotlin.ui.adapters.ForecastListAdapter
+import kotlin.coroutines.CoroutineContext
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), CoroutineScope {
+    private val job:Job = Job()
+    override val coroutineContext: CoroutineContext
+        get() = job + Dispatchers.Main
     private var adapter: ForecastListAdapter = ForecastListAdapter {
         //on item click
         val intent = Intent()
@@ -29,9 +34,18 @@ class MainActivity : AppCompatActivity() {
 
         val cityId = 2193733
 
-        GlobalScope.launch(Dispatchers.Main) {
+//        GlobalScope.launch(Dispatchers.Main) {
+//            adapter.weekForecast = convertToDomain(cityId, ApiAdapter.get().getForcastByCity(cityId))
+//        }
+
+        launch {
             adapter.weekForecast = convertToDomain(cityId, ApiAdapter.get().getForcastByCity(cityId))
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()
     }
 
     private val items = listOf(
